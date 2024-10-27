@@ -9,9 +9,12 @@ class AppStrings {
   static const String fats = 'fats';
   static const String carbs = 'carbs';
   static const String addToCart = 'Add to cart';
+  static const String cart = 'Cart';
   //Cart
   static const String cartHeading =
-      'We will deliver in 24 minutes to the address:';
+      'We will deliver in \n24 minutes to the address:';
+  static const String address = '100a Ealing Rd';
+  static const String changeAddress = 'Change address';
   static const String cutlery = 'Cutlery';
   static const String delivery = 'Delivery';
   static const String deliverySubTitle = 'Free Delivery from \$30';

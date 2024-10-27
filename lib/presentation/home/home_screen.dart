@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../extensions/extensions.dart';
 
 import 'package:sizer/sizer.dart';
 
@@ -9,6 +10,7 @@ import '../../constants/assets_path.dart';
 import '../../cubit/food_items_cubit.dart';
 import '../../style/colors.dart';
 
+import '../bottom_sheets/cart_bottom_sheet.dart';
 import 'widgets/custom_carousel_indicator_widget.dart';
 import 'widgets/custom_carousel_wiget.dart';
 import 'widgets/custom_chip_button.dart';
@@ -23,6 +25,58 @@ class HomeScreen extends StatelessWidget {
     BlocProvider.of<FoodItemsCubit>(context).getFoodItems();
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: BlocBuilder<FoodItemsCubit, FoodItemsState>(
+        builder: (context, state) {
+          if (state is FoodItemsLoadedState &&
+              BlocProvider.of<FoodItemsCubit>(context).cartItems.isNotEmpty) {
+            return FloatingActionButton.extended(
+              onPressed: () {
+                showCartBottomSheet(context: context, state: state);
+              },
+              backgroundColor: CustomColors.black,
+              label: SizedBox(
+                width: 70.w,
+                child: Row(
+                  children: [
+                    Text(
+                      AppStrings.cart,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Colors.white),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "24 min",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: Colors.white),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3.w),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        minRadius: 0.7.w,
+                      ),
+                    ),
+                    Text(
+                      BlocProvider.of<FoodItemsCubit>(context)
+                          .total
+                          .formatToPriceDouble(),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
       appBar: AppBar(
         // backgroundColor: Colors.amber,
         leading: const Icon(Icons.menu_rounded),
@@ -36,15 +90,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: BlocConsumer<FoodItemsCubit, FoodItemsState>(
-        listener: (context, state) {
-          if (state is FoodItemsInitial) {
-            print("Init State");
-          } else if (state is FoodItemsLoading) {
-            print("Loading State");
-          } else {
-            print("Loaded State");
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is FoodItemsLoading) {
             return const Center(
