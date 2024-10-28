@@ -3,7 +3,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../../cubit/food_items_cubit.dart';
 import '../../../style/colors.dart';
-import '../../bottom_sheets/food_items_bottom_sheet.dart';
+
+import '../../food_details/food_items_bottom_sheet.dart';
 import 'custom_chip_button.dart';
 
 class FoodItemCardsListWidget extends StatelessWidget {
@@ -26,7 +27,6 @@ class FoodItemCardsListWidget extends StatelessWidget {
         ),
         itemBuilder: (context, index) => InkWell(
           onTap: () {
-            //ToDo: Trigger Food Details BottomSheet
             showFoodItemDetailsBottomSheet(
                 context: context, state: state, index: index);
           },

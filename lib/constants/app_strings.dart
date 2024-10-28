@@ -1,6 +1,8 @@
 class AppStrings {
   //Home Screen
   static const String heading = 'Hits of the week';
+  static const String deliveryTime = '24 mins';
+  static const String deliveryTime1 = '24 min';
   //Food Item Details
   static const String addInPoke = 'Add in poke';
   static const String kcal = 'kcal';

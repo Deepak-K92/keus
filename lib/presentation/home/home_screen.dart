@@ -10,7 +10,7 @@ import '../../constants/assets_path.dart';
 import '../../cubit/food_items_cubit.dart';
 import '../../style/colors.dart';
 
-import '../bottom_sheets/cart_bottom_sheet.dart';
+import '../cart/cart_bottom_sheet.dart';
 import 'widgets/custom_carousel_indicator_widget.dart';
 import 'widgets/custom_carousel_wiget.dart';
 import 'widgets/custom_chip_button.dart';
@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "24 min",
+                      AppStrings.deliveryTime1,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
@@ -132,7 +132,8 @@ class HomeScreen extends StatelessWidget {
                     height: 5.h,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: ['', 'Salads', 'Pizza', 'Beverages', 'Snacks']
+                      children: BlocProvider.of<FoodItemsCubit>(context)
+                          .getFilterTabsList()
                           .map((e) => CustomChipButton(
                                 text: e,
                                 isText: e == "" ? false : true,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../constants/app_strings.dart';
 import '../../../style/colors.dart';
 
 class RoundedTitleWiget extends StatelessWidget {
@@ -21,7 +22,7 @@ class RoundedTitleWiget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "100a Ealing Rd",
+            AppStrings.address,
             style: Theme.of(context)
                 .textTheme
                 .bodySmall
@@ -35,7 +36,7 @@ class RoundedTitleWiget extends StatelessWidget {
             ),
           ),
           Text(
-            "24 mins",
+            AppStrings.deliveryTime,
             style: Theme.of(context)
                 .textTheme
                 .bodySmall

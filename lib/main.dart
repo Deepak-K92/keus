@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:keus_assignment/cubit/food_items_cubit.dart';
+
 import 'package:sizer/sizer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app_routes/app_route.dart';
+import 'cubit/food_items_cubit.dart';
 import 'get_it/di.dart';
 
 void main() {

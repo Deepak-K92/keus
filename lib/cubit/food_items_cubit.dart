@@ -3,10 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:keus_assignment/get_it/di.dart';
-
 import '../data/model/food_items_model.dart';
 import '../domain/use_case/food_items_usecase.dart';
+import '../get_it/di.dart';
 import '../presentation/model/cart_model.dart';
 
 part 'food_items_state.dart';
@@ -14,20 +13,37 @@ part 'food_items_state.dart';
 class FoodItemsCubit extends Cubit<FoodItemsState> {
   FoodItemsCubit() : super(FoodItemsInitial());
 
+  //DI
   final FoodItemsUsecase usecase = locator<FoodItemsUsecase>();
 
+  //Controllers & Variable Declarations
   PageController pageController = PageController(initialPage: 0);
   int activePage = 0, quantity = 0, price = 0, cutlery = 0;
   double total = 0;
 
   Set<CartModel> cartItems = {};
 
-  getFoodItemsData() {
+  ///HOME
+
+  //Load Data
+  void getFoodItemsData() {
     final List<FoodItemDetails> data = usecase.getFoodItemsData();
     emit(FoodItemsLoadedState(
         items: data, pageController, activePage: activePage));
   }
 
+  //Filter Tabs
+  List<String> getFilterTabsList() =>
+      ['', 'Salads', 'Pizza', 'Beverages', 'Snacks'];
+
+  //Call Api on Load Screen
+  Future getFoodItems() async {
+    emit(FoodItemsLoading());
+    await Future.delayed(const Duration(seconds: 1));
+    getFoodItemsData();
+  }
+
+  //Returns Price of Food Item
   double getPrice({required int index}) {
     final List<FoodItemDetails> data = usecase.getFoodItemsData();
     emit(FoodItemsLoadedState(
@@ -35,47 +51,35 @@ class FoodItemsCubit extends Cubit<FoodItemsState> {
     return data[index].price ?? 0;
   }
 
-  getFoodItems() async {
-    emit(FoodItemsLoading());
-    await Future.delayed(const Duration(seconds: 1));
-    getFoodItemsData();
-  }
-
-  carouselOnIndicatorTap({required double index}) {
-    // activePage = index.round();
-    pageController.animateTo(index,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-    // getFoodItemsData();
-  }
-
-  setActivePageValue({required int value}) {
+  //Carousel Logic on Page Change for Indicator
+  void setActivePageValue({required int value}) {
     activePage = value;
     getFoodItemsData();
   }
 
-  checkDefaultQuantity({required int index}) {
+  //Validation
+  void checkDefaultQuantity({required int index}) {
     if (quantity == 0) {
       incrementPrice(index: index);
     }
   }
 
-  incrementPrice({required int index}) {
+  //Add Quant
+  void incrementPrice({required int index}) {
     quantity = quantity + 1;
-    // var prc = getPrice(index: index);
-    // total = quantity.toDouble() * prc;
     getFoodItems();
   }
 
-  decrementPrice({required int index}) {
+  //Sub Quant
+  void decrementPrice({required int index}) {
     if (quantity > 0) {
       quantity = quantity - 1;
-      // var prc = getPrice(index: index);
-      // total = quantity.toDouble() * prc;
       getFoodItems();
     }
   }
 
-  onAddToCart({required FoodItemDetails details, required int quantity}) {
+  //Add to Cart Logic
+  void onAddToCart({required FoodItemDetails details, required int quantity}) {
     addToCart(
         item: CartModel(
       id: details.id ?? 0,
@@ -95,7 +99,7 @@ class FoodItemsCubit extends Cubit<FoodItemsState> {
         items: data, pageController, activePage: activePage));
   }
 
-  addToCart({required CartModel item}) {
+  void addToCart({required CartModel item}) {
     // ignore: collection_methods_unrelated_type
 
     if (cartItems.contains(item)) {
@@ -116,7 +120,10 @@ class FoodItemsCubit extends Cubit<FoodItemsState> {
     return tot;
   }
 
-  addItemQuant({required int quant, required CartModel item}) {
+  ///CART
+
+  //Add Item Quantity in Cart Screen
+  void addItemQuant({required int quant, required CartModel item}) {
     int temp = 0;
     temp = quant;
     temp++;
@@ -125,7 +132,8 @@ class FoodItemsCubit extends Cubit<FoodItemsState> {
     getFoodItems();
   }
 
-  subItemQuant({required int quant, required CartModel item}) {
+  //Sub Item Quantity in Cart Screen
+  void subItemQuant({required int quant, required CartModel item}) {
     if (item.quantity == 1) {
       cartItems.remove(item);
     } else {
@@ -139,13 +147,15 @@ class FoodItemsCubit extends Cubit<FoodItemsState> {
     getFoodItems();
   }
 
-  addCutleryQuant({required int quant}) {
+  //Add Cutlery Quantity in Cart Screen
+  void addCutleryQuant({required int quant}) {
     cutlery++;
     total = calclatePriceInCart();
     getFoodItems();
   }
 
-  subCutleryQuant({required int quant}) {
+  //Sub Cutlery Quantity in Cart Screen
+  void subCutleryQuant({required int quant}) {
     if (cutlery > 0) {
       cutlery--;
       total = calclatePriceInCart();

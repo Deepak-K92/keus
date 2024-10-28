@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:keus_assignment/extensions/extensions.dart';
-
-import 'package:keus_assignment/style/colors.dart';
+import '../../style/colors.dart';
 
 import 'package:sizer/sizer.dart';
 
 import '../../constants/app_strings.dart';
 import '../../cubit/food_items_cubit.dart';
+import 'widgets/cal_text_widget.dart';
+import 'widgets/custom_add_cart_button.dart';
+import 'widgets/custom_counter_widget.dart';
 
 showFoodItemDetailsBottomSheet(
     {required BuildContext context,
@@ -198,127 +199,4 @@ showFoodItemDetailsBottomSheet(
       ],
     ),
   );
-}
-
-class CustomAddCartButton extends StatelessWidget {
-  final double total;
-  final Function()? onTap;
-  const CustomAddCartButton({
-    super.key,
-    required this.total,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 6.h,
-        padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 0.w),
-        margin: EdgeInsets.symmetric(horizontal: 2.w),
-        decoration: BoxDecoration(
-          color: CustomColors.black,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              AppStrings.addToCart,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            Text(
-              total.formatToPriceDouble(),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CalTextWidget extends StatelessWidget {
-  final String calVal, calDesc;
-  const CalTextWidget({super.key, required this.calVal, required this.calDesc});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          calVal,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.bold, color: CustomColors.black),
-        ),
-        SizedBox(
-          height: 0.5.h,
-        ),
-        Text(
-          calDesc,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.normal, color: CustomColors.grey2),
-        ),
-      ],
-    );
-  }
-}
-
-class CustomCounterWidget extends StatelessWidget {
-  final Function() onIncrease, onDecrease;
-  final int quantity;
-  const CustomCounterWidget(
-      {super.key,
-      required this.onIncrease,
-      required this.onDecrease,
-      required this.quantity});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // width: 35.w,
-      height: 6.h,
-      padding: EdgeInsets.symmetric(horizontal: 1.w),
-      decoration: BoxDecoration(
-          color: CustomColors.grey, borderRadius: BorderRadius.circular(10)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconButton(
-            onPressed: () => onDecrease(),
-            icon: const Icon(
-              Icons.remove,
-              color: CustomColors.grey3,
-            ),
-          ),
-          Text(
-            "$quantity",
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          IconButton(
-            onPressed: () => onIncrease(),
-            icon: const Icon(
-              Icons.add,
-              color: CustomColors.grey3,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
