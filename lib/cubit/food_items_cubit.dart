@@ -136,6 +136,9 @@ class FoodItemsCubit extends Cubit<FoodItemsState> {
   void subItemQuant({required int quant, required CartModel item}) {
     if (item.quantity == 1) {
       cartItems.remove(item);
+      if (cartItems.isEmpty) {
+        Get.back();
+      }
     } else {
       int temp = 0;
       temp = quant;

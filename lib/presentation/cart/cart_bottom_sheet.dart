@@ -72,7 +72,8 @@ showCartBottomSheet({
                   ),
                   //Cart Items
                   SizedBox(
-                    height: 25.h,
+                    //In case of FixedHeight uncomment below code.
+                    // height: 25.h,
                     child: Scrollbar(
                       trackVisibility: true,
                       child: SingleChildScrollView(
