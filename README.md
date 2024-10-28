@@ -75,7 +75,7 @@ For the Cart Screen there was no further discussion on how items shouls apear in
 - Here you will get the details of the food item and its quantity.
 - Here you willl get the total amount of all the items in the cart.
 
-Check the screenshots folder for the output.
+Check the screenshots folder for the output here (https://github.com/Deepak-K92/keus/tree/main/screenshots).
 
 ## References
 
